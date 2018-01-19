@@ -15,3 +15,4 @@ def get_all_the_urls_of_val_doise_townhalls()
    puts doc.xpath('//').each do |link|
 end
 get_all_the_urls_of_val_doise_townhalls()
+#Pas réussi au complet la méthode
