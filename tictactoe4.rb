@@ -1,35 +1,27 @@
-require 'scanf'
+require 'scanf' #sert à convertir chaque type(entier,chaînes de caractères)
 
-class BoardCase
-  #TO DO : la classe a 2 attr_accessor, sa valeur (X, O, ou vide), ainsi que son numéro de case)
+class BoardCase #définit la classe des cases et leur valeur (X, O, ou vide) et leur numéro de case
   def valeur
      @valeur
    end
 
-  def initialize
-    #TO DO doit régler sa valeur, ainsi que son numéro de case
+  def initialize #règle sa valeur
     @valeur = ' '
   end
   
-  def to_s
-    #TO DO : doit renvoyer la valeur au format string
+  def to_s #renvoie la valeur au format string
     s = " "+@valeur+" "
     print s
   end
 end
 
 
-class Board
-  #include Enumerable
-  #TO DO : la classe a 1 attr_accessor, une array qui contient les BoardCases
+class Board 
   def damier
      @damier
    end
 
-  def initialize
-    #TO DO :
-    #Quand la classe s'initialize, elle doit créer 9 instances BoardCases
-    #Ces instances sont rangées dans une array qui est l'attr_accessor de la classe
+  def initialize #Quand la classe s'initialise, elle crée 9 instances BoardCases
     @damier = [[BoardCase.new,BoardCase.new,BoardCase.new],
                [BoardCase.new,BoardCase.new,BoardCase.new],
                [BoardCase.new,BoardCase.new,BoardCase.new]]
@@ -40,8 +32,7 @@ class Board
    end
 
 
-  def to_s
-    #TO DO : afficher le plateau
+  def to_s #affiche le plateau et les numéros de case
     i = 0
     print "\n"
     while i<@damier.length do
@@ -62,7 +53,7 @@ class Board
     end
   end
   
-  def configGagnante(val)
+  def configGagnante(val) #donne les possibilités de configuration gagnante(ligne,colonne,diagonale)
     r = false
     i=0 # ligne
     while i<3 do
@@ -74,22 +65,20 @@ class Board
       r = r || (@damier[0][i]==val && @damier[1][i]==val && @damier[2][i]==val)
       i = i+1
     end
-    r = r || (@damier[0][0]==val && @damier[1][1]==val && @damier[2][2]==val)
-    r = r || (@damier[2][0]==val && @damier[1][1]==val && @damier[0][2]==val)     
+    r = r || (@damier[0][0]==val && @damier[1][1]==val && @damier[2][2]==val) # diagonale 1
+    r = r || (@damier[2][0]==val && @damier[1][1]==val && @damier[0][2]==val) # diagonale 2   
     return r
   end
 end
 
 
-class Player
-  #TO DO : la classe a 2 attr_accessor, son nom, sa valeur (X ou O). Elle a un attr_writer : il a gagné ?
+class Player 
    attr_reader :nom, :valeur, :gagne
    def gagne=(newGagne)
      @gagne = newGagne
    end
 
-  def initialize(nom, valeur)
-    #TO DO : doit régler son nom, sa valeur, son état de victoire
+  def initialize(nom, valeur) #attribuée au joueur, gagne-t-il et avec quelle valeur?
     @nom = nom
     if @valeur == ' ' then
       print "erreur joueur.valeur == \' \'\n"
@@ -105,9 +94,8 @@ class Player
 end
 
 
-class Game
+class Game #crée 2 joueurs et un board
   def initialize(joueur_1,joueur_2)
-    #TO DO : créé 2 joueurs, créé un board
     @joueur_1 = joueur_1
     @joueur_2 = joueur_2
     if @joueur_1.valeur == @joueur_2.valeur then
@@ -117,9 +105,7 @@ class Game
     @b = Board.new
   end
 
-  def turn(joueur)
-    #TO DO : affiche le plateau, demande au joueur il joue quoi, vérifie
-    #si un joueur a gagné, passe au joueur suivant si la partie n'est pas finie
+  def turn(joueur) #affiche le plateau, demande au joueur quelle case veut-il jouer, vérifie si un joueur a gagné, passe au joueur suivant si la partie n'est pas finie
     @b.to_s
     print joueur.to_s,": quelle case jouez-vous?\n"
     p = scanf("%d%d")
@@ -142,8 +128,7 @@ class Game
     joueur.gagne = @b.configGagnante(joueur.valeur) 
   end
 
-  def go
-    # TO DO : lance la partie
+  def go #félicite le joueur gagnant et annonce en cas de match nul
     joueurs = [@joueur_1, @joueur_2]
     i = 0
     while i<9 && !(@joueur_1.gagne || @joueur_2.gagne) do
@@ -161,5 +146,5 @@ class Game
  end
 
 joueur_1 = Player.new("Tina",'X')
-joueur_2 = Player.new("Barney",'O')
+joueur_2 = Player.new("Tino",'O')
 Game.new(joueur_1,joueur_2).go
