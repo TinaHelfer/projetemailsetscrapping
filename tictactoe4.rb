@@ -4,6 +4,10 @@ class BoardCase #définit la classe des cases et leur valeur (X, O, ou vide) et 
   def valeur
      @valeur
    end
+  
+   def valeur=(val)
+      @valeur=val
+    end
 
   def initialize #règle sa valeur
     @valeur = ' '
@@ -28,7 +32,7 @@ class Board
   end
 
    def setDamier(l,c,val)
-     @damier[l][c] = val
+     @damier[l][c].valeur = val
    end
 
 
